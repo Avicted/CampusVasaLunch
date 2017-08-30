@@ -6,32 +6,53 @@ var cors = require('cors');
 var request = require('request');
 var bodyParser = require('body-parser')
 var prettyjson = require('prettyjson');
+var dateFormat = require('dateformat');
 var app = express();
+
 
 // Settings
 app.use(bodyParser.json());
 app.use(cors());
 
-// Routes / API endpoints
-app.get('/test', function(req, res){
-  var alere = 'http://www.juvenes.fi/DesktopModules/Talents.LunchMenu/LunchMenuServices.asmx/GetMenuByWeekday?KitchenId=45&MenuTypeId=60&Week=35&Weekday=3&lang=%27sv-SE%27&format=json';
-  var test = 'https://api.victoranderssen.com/lunchtoday/w33';
 
-  request(alere, function (error, response, body) {
+// Global lunch items arrays TODO can these please be local? :/
+var lunchItemsSE = [];
+
+
+// Routes / API endpoints TODO: make this a reusable general function? maby the KitchenIds could exist on an object / array?
+app.get('/alere', function(req, res){
+
+  var currentDate = new Date();
+  var weekNumber = dateFormat(currentDate, "W");
+  var dayNumber = currentDate.getDay();
+
+  //var alere = 'http://www.juvenes.fi/DesktopModules/Talents.LunchMenu/LunchMenuServices.asmx/GetMenuByWeekday?KitchenId=45&MenuTypeId=60&Week=' + weekNumber + '&Weekday=' + dayNumber + '&lang=%27sv-SE%27&format=json';
+  var restaurant = 'http://www.juvenes.fi/DesktopModules/Talents.LunchMenu/LunchMenuServices.asmx/GetMenuByWeekday?KitchenId=45&MenuTypeId=60&Week=' + weekNumber + '&Weekday=' + dayNumber + '&lang=%27sv-SE%27&format=json';
+  
+  //var test = 'https://api.victoranderssen.com/lunchtoday/w33';
+
+  request(restaurant, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       
       var body = jsonClean(body);
 
-      // is the var an object?
-      //console.log(body instanceof Object);
-
-      //that's all... no magic, no bloated framework
-      var lunchItemsSE = [];
+      // Parse the json and find all the lunch items
       traverse(body, process);
-      console.log(lunchItemsSE);
+
+      // TODO: move this into a general function?
+      result = '';
+      result += 'Alere ' + dateFormat(currentDate, "fullDate") + ' \n\n';
+      for (let i = 0; i < lunchItemsSE.length; i++) {
+        result += lunchItemsSE[i] + '\n';
+      }
+      // END TODO ---------------------------
 
       //console.log(prettyjson.render(keys));
-      res.send(body);
+      console.log(result);
+      res.send(result);
+
+      // Empty the array so that it does not accumulate results for the unlucky next user who will get the result * (number of requests that ever happend)
+      lunchItemsSE = [];
     }
   })
 });
@@ -53,13 +74,11 @@ function jsonClean(dirty) {
 
 //called with every property and its value
 function process(key, value) {
-  //console.log(key + " : "+ value);
-
-  // Find all occurances of the swedish lunch items that do not begin with LOUNAS ?! and are not empty ... API at its finest
+  // Find all occurances of the swedish lunch items that do not begin with LOUNAS ?! and are not empty ...
   if (key == 'Name_SV' && value.includes('LOUNAS') == false && value !== '') {
-    console.log(key + " : "+ value);
+    lunchItemsSE.push(value);
+    //console.log(key + " : "+ value);
   }
-
 }
 
 function traverse(o, func) {
