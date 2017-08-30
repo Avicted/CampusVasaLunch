@@ -1,5 +1,7 @@
 // Campus Vasa lunch API  - Victor Anderssén 2017
 
+// TODO add all the different MenuTypeIds
+
 // Includes
 var express = require('express');
 var cors = require('cors');
@@ -17,7 +19,10 @@ app.use(cors());
 
 // Global restaurant ids
 var restaurants = {
-  alere: {id: 45, name: 'Alere'}
+  alere: {id: 45, name: 'Alere', menuTypeId: 60},
+  serveri: {id: 35, name: 'Serveri', menuTypeId: 60},
+  wolffs: {id: 350047, name: 'Wolffs', menuTypeId: 23},
+  mathilda: {id: 34, name: 'Mathilda', menuTypeId: 60}
 };
 
 
@@ -27,7 +32,19 @@ var lunchItemsSE = [];
 
 // Routes / API endpoints TODO: make this a reusable general function? maby the KitchenIds could exist on an object / array?
 app.get('/alere', function(req, res){
-  getLunchToday(req, res, restaurants.alere.id);
+  getLunchToday(req, res, restaurants.alere);
+});
+
+app.get('/serveri', function(req, res){
+  getLunchToday(req, res, restaurants.serveri);
+});
+
+app.get('/wolffs', function(req, res){
+  getLunchToday(req, res, restaurants.wolffs);
+});
+
+app.get('/mathilda', function(req, res){
+  getLunchToday(req, res, restaurants.mathilda);
 });
 
 
@@ -35,9 +52,9 @@ function getLunchToday(req, res, restaurant) {
   var currentDate = new Date();
   var weekNumber = dateFormat(currentDate, "W");
   var dayNumber = currentDate.getDay();
-  var restaurant = 'http://www.juvenes.fi/DesktopModules/Talents.LunchMenu/LunchMenuServices.asmx/GetMenuByWeekday?KitchenId=' + restaurant + '&MenuTypeId=60&Week=' + weekNumber + '&Weekday=' + dayNumber + '&lang=%27sv-SE%27&format=json';
+  var restaurantURL = 'http://www.juvenes.fi/DesktopModules/Talents.LunchMenu/LunchMenuServices.asmx/GetMenuByWeekday?KitchenId=' + restaurant.id + '&MenuTypeId=' + restaurant.menuTypeId + '&Week=' + weekNumber + '&Weekday=' + dayNumber + '&lang=%27sv-SE%27&format=json';
 
-  request(restaurant, function (error, response, body) {
+  request(restaurantURL, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       
       var body = jsonClean(body);
@@ -47,7 +64,7 @@ function getLunchToday(req, res, restaurant) {
 
       // TODO: move this into a general function?
       result = '';
-      result += restaurants.alere.name + ' ' + dateFormat(currentDate, "fullDate") + ' \n\n';
+      result += restaurant.name + ' ' + dateFormat(currentDate, "fullDate") + ' \n\n';
       for (let i = 0; i < lunchItemsSE.length; i++) {
         result += lunchItemsSE[i] + '\n';
       }
