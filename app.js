@@ -14,6 +14,10 @@ var app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+// Global restaurant ids
+var restaurants = {
+  alere: 45
+};
 
 // Global lunch items arrays TODO can these please be local? :/
 var lunchItemsSE = [];
@@ -21,13 +25,17 @@ var lunchItemsSE = [];
 
 // Routes / API endpoints TODO: make this a reusable general function? maby the KitchenIds could exist on an object / array?
 app.get('/alere', function(req, res){
+  getLunchToday(req, res, restaurants.alere);
+});
 
+
+function getLunchToday(req, res, restaurant) {
   var currentDate = new Date();
   var weekNumber = dateFormat(currentDate, "W");
   var dayNumber = currentDate.getDay();
 
   //var alere = 'http://www.juvenes.fi/DesktopModules/Talents.LunchMenu/LunchMenuServices.asmx/GetMenuByWeekday?KitchenId=45&MenuTypeId=60&Week=' + weekNumber + '&Weekday=' + dayNumber + '&lang=%27sv-SE%27&format=json';
-  var restaurant = 'http://www.juvenes.fi/DesktopModules/Talents.LunchMenu/LunchMenuServices.asmx/GetMenuByWeekday?KitchenId=45&MenuTypeId=60&Week=' + weekNumber + '&Weekday=' + dayNumber + '&lang=%27sv-SE%27&format=json';
+  var restaurant = 'http://www.juvenes.fi/DesktopModules/Talents.LunchMenu/LunchMenuServices.asmx/GetMenuByWeekday?KitchenId=' + restaurant + '&MenuTypeId=60&Week=' + weekNumber + '&Weekday=' + dayNumber + '&lang=%27sv-SE%27&format=json';
   
   //var test = 'https://api.victoranderssen.com/lunchtoday/w33';
 
@@ -55,8 +63,7 @@ app.get('/alere', function(req, res){
       lunchItemsSE = [];
     }
   })
-});
-
+}
 
 function jsonClean(dirty) {
   // remove  ({"d":" from the beginning
