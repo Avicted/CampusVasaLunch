@@ -1,3 +1,5 @@
+// Campus Vasa lunch API  - Victor Anderssén 2017
+
 var express = require('express');
 var cors = require('cors');
 var request = require('request');
@@ -25,11 +27,13 @@ app.get('/test', function(req, res){
 
 
 function jsonClean(dirty) {
-  // Clean the non standard json ...
+  // remove  ({"d":" from the beginning
   var dirty = dirty.substr(7);
-  var dirtyLength = dirty.length;
+  // remove  "}); from the end
   var dirty = dirty.substr(0, dirty.length - 4);
-  var cleanJson = dirty.replace('\\', '');
+  // replace \ -> empty
+
+  var cleanJson = dirty.replace(/\\/g, ' ');
 
   return cleanJson;
 }
