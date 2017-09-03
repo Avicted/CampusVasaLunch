@@ -3,6 +3,7 @@
 // TODO add all the different MenuTypeIds
 
 // Includes
+var config = require('./config.js');
 var express = require('express');
 var cors = require('cors');
 var request = require('request');
@@ -32,24 +33,25 @@ var lunchItemsSE = [];
 
 // Routes / API endpoints TODO: make this a reusable general function? maby the KitchenIds could exist on an object / array?
 app.get('/alere', function(req, res){
-  getLunchToday(req, res, restaurants.alere);
+  getLunchTodayJuvenes(req, res, restaurants.alere);
 });
 
 app.get('/serveri', function(req, res){
-  getLunchToday(req, res, restaurants.serveri);
+  getLunchTodayJuvenes(req, res, restaurants.serveri);
 });
 
 app.get('/wolffs', function(req, res){
-  getLunchToday(req, res, restaurants.wolffs);
+  getLunchTodayJuvenes(req, res, restaurants.wolffs);
 });
 
 app.get('/mathilda', function(req, res){
-  getLunchToday(req, res, restaurants.mathilda);
+  getLunchTodayJuvenes(req, res, restaurants.mathilda);
 });
 
 
-function getLunchToday(req, res, restaurant) {
-  var currentDate = new Date();
+function getLunchTodayJuvenes(req, res, restaurant) {
+  // TODO - restore date
+  var currentDate = new Date('2017-9-4');
   var weekNumber = dateFormat(currentDate, "W");
   var dayNumber = currentDate.getDay();
   var restaurantURL = 'http://www.juvenes.fi/DesktopModules/Talents.LunchMenu/LunchMenuServices.asmx/GetMenuByWeekday?KitchenId=' + restaurant.id + '&MenuTypeId=' + restaurant.menuTypeId + '&Week=' + weekNumber + '&Weekday=' + dayNumber + '&lang=%27sv-SE%27&format=json';
@@ -61,19 +63,25 @@ function getLunchToday(req, res, restaurant) {
 
       // Parse the json and find all the lunch items
       traverse(body, process);
-
-      // TODO: move this into a general function?
       result = '';
-      result += restaurant.name + ' ' + dateFormat(currentDate, "fullDate") + ' \n\n';
-      for (let i = 0; i < lunchItemsSE.length; i++) {
-        result += lunchItemsSE[i] + '\n';
+
+      if (lunchItemsSE.length >= 1) {
+        result += restaurant.name + ' ' + dateFormat(currentDate, "fullDate") + ' \n\n';
+        for (let i = 0; i < lunchItemsSE.length; i++) {
+          result += lunchItemsSE[i] + '\n';
+        }
+  
+        console.log(result);
+        res.send(result);
       }
-      // END TODO ---------------------------
+      else {
+        result += restaurant.name + ' ' + dateFormat(currentDate, "fullDate") + ' \n\n';
+        result += 'Det finns ingen lunch data för tillfället';
 
-      //console.log(prettyjson.render(keys));
-      console.log(result);
-      res.send(result);
-
+        console.log(result);
+        res.send(result);
+      }
+     
       // Empty the array so that it does not accumulate results for the unlucky next user who will get the result * (number of requests that ever happend)
       lunchItemsSE = [];
     }
