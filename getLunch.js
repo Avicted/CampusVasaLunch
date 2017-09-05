@@ -1,7 +1,7 @@
 // Restaurant modules
-var getLunchJuvenes = require('./getLunchJuvenes.js');
-var getLunchW33 = require('./getLunchW33.js');
-var getLunchCafeTechno = require('./getLunchCafeTechno.js');
+var getLunchJuvenes = require('./restaurants/getLunchJuvenes.js');
+var getLunchW33 = require('./restaurants/getLunchW33.js');
+var getLunchCafeTechno = require('./restaurants/getLunchCafeTechno.js');
 
 module.exports = function() {
 
