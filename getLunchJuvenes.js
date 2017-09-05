@@ -54,7 +54,7 @@ module.exports = function() {
         /* else {
           reject(error);
         } */
-        
+
       })
     });
     

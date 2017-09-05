@@ -81,6 +81,17 @@ var getLunchW33 = function () {
 };
 getLunchW33();
 
+var getLunchCafeTechno = function () {
+  getLunch.cafeTechno
+  .then(function (result) {
+    console.log(result);
+  })
+  .catch(function (error) {
+    console.log(error.message);
+  });
+};
+getLunchCafeTechno();
+
 
 app.listen(3000);
 console.log("The server is now running on port 3000.");

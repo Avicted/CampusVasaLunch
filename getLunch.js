@@ -1,11 +1,13 @@
 // Restaurant modules
 var getLunchJuvenes = require('./getLunchJuvenes.js');
 var getLunchW33 = require('./getLunchW33.js');
+var getLunchCafeTechno = require('./getLunchCafeTechno.js');
 
 module.exports = function() {
 
   var juvenes = getLunchJuvenes(); // move this out to the anon function? and pass it into all methods?
   var W33 = getLunchW33();
+  var cafeTechno = getLunchCafeTechno();
 
   // TODO: all these promises do the same thing, maby use parameters?
   var alere = new Promise(
@@ -68,12 +70,25 @@ module.exports = function() {
     }
   );
 
+  var cafeTechno = new Promise(
+    function (resolve, reject) {
+      var resultCafeTechno = cafeTechno.getLunchTodayCafeTechno();
+      if (resultCafeTechno) {
+          resolve(resultCafeTechno); // fulfilled
+      } else {
+          var reason = new Error('Could not fetch any data for CafeTechno');
+          reject(reason); // reject
+      }
+    }
+  );
+
   return {
     alere: alere,
     serveri: serveri,
     wolffs: wolffs,
     mathilda: mathilda,
-    W33: W33
+    W33: W33,
+    cafeTechno: cafeTechno
   };
 }
 
