@@ -50,6 +50,11 @@ module.exports = function() {
           // Empty the array so that it does not accumulate results for the unlucky next user who will get the result * (number of requests that ever happend)
           lunchItemsSE = [];
         }
+        // TODO: test and enable this?
+        /* else {
+          reject(error);
+        } */
+        
       })
     });
     

@@ -3,7 +3,8 @@
 /*
  * TODO:
  * add all the different MenuTypeIds
- * 
+ * add w33 by using the FB graph API?
+ * add the other restaurants, cafetechno, cottonclub, leison -> webparser / scraper from the website or from external lunch site
  */
 
 // Includes
@@ -67,6 +68,18 @@ var getLunchMathilda = function () {
   });
 };
 getLunchMathilda();
+
+// W33 test
+var getLunchW33 = function () {
+  getLunch.W33
+  .then(function (result) {
+    console.log(result);
+  })
+  .catch(function (error) {
+    console.log(error.message);
+  });
+};
+getLunchW33();
 
 
 app.listen(3000);
