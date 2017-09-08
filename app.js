@@ -85,7 +85,7 @@ app.post('/webhook', function (req, res) {
 });
 
 
-// Restaurant API
+// Restaurant methods
 var getLunchW33 = function (senderID) {
   getLunch.W33
   .then(function (result) {
@@ -101,11 +101,57 @@ var getLunchCafeTechno = function () {
   getLunch.cafeTechno
   .then(function (result) {
     console.log(result);
+    sendTextMessage(senderID, result);
   })
   .catch(function (error) {
     console.log(error.message);
   });
 };
+
+var getLunchMathilda = function () {
+  getLunch.mathilda
+  .then(function (result) {
+      console.log(result);
+      sendTextMessage(senderID, result);
+  })
+  .catch(function (error) {
+      console.log(error.message);
+  });
+};
+
+var getLunchWolffs = function () {
+  getLunch.wolffs
+  .then(function (result) {
+      console.log(result);
+      sendTextMessage(senderID, result);
+  })
+  .catch(function (error) {
+      console.log(error.message);
+  });
+};
+
+var getLunchServeri = function () {
+  getLunch.serveri
+  .then(function (result) {
+      console.log(result);
+      sendTextMessage(senderID, result);
+  })
+  .catch(function (error) {
+      console.log(error.message);
+  });
+};
+
+var getLunchAlere = function () {
+  getLunch.alere
+  .then(function (result) {
+      console.log(result);
+      sendTextMessage(senderID, result);
+  })
+  .catch(function (error) {
+      console.log(error.message);
+  });
+};
+
 
 function receivedMessage(event) {
   var senderID = event.sender.id;
@@ -132,12 +178,41 @@ function receivedMessage(event) {
         break;
       }
 
+      case 'alere':
+      case 'Alere':
+      {
+        getLunchAlere(senderID);
+        break;
+      }
+
+      case 'serveri':
+      case 'Serveri':
+      {
+        getLunchServeri(senderID);
+        break;
+      }
+
+      case 'wolffs':
+      case 'Wolffs':
+      {
+        getLunchWolffs(senderID);
+        break;
+      }
+
+      case 'mathilda':
+      case 'Mathilda':
+      {
+        getLunchMathilda(senderID);
+        break;
+      }
+
       case 'w33':
       case 'W33':
       {
         getLunchW33(senderID);
         break;
       }
+
       case 'cafetechno':
       case 'Cafetechno':
       {
@@ -155,44 +230,10 @@ function receivedMessage(event) {
 }
 
 function getHelpText(senderID) {
-  //var messageText = 'För att få lunchmenyn från en specifik restaurang, skriv ett av följande kommandon: \n\nAlere\nServeri\nWolffsstreet\nMathilda\nW33\nCafetechno\n';
-  var messageText = 'För att få lunchmenyn från en specifik restaurang, skriv ett av följande kommandon: \n\nW33\n';
+  var messageText = 'För att få lunchmenyn från en specifik restaurang, skriv ett av följande kommandon: \n\nAlere\nServeri\nWolffs\nMathilda\nW33\nCafetechno\n';
   sendTextMessage(senderID, messageText);
 }
 
-/* function getData(senderID, messageText) {
-  // determine restaurant
-  var restaurant = messageText.toLowerCase();
-  var restaurantFormatted = restaurant.capitalize();
-
-  request.get({ url: "https://api.victoranderssen.com/lunchtoday/" + restaurant }, function(error, response, body) { 
-    if (!error && response.statusCode == 200) {       
-      body = JSON.parse(body);
-      
-      dateTimeReal = body[0].result[0].date_time_real;
-      dayName = body[0].result[1].day_name;
-      upvotes = body[0].result[2].upvotes;
-      messageId = body[0].result[3].message_id;
-
-      var size = body[0].result;
-      size = size.length - 4;
-
-      var lunchItems = [];
-      var j = 4;
-      for (var i = 0; i < size; i++) {
-        var dishTemp = body[0].result[j].dish_of_the_day;
-          // variable is defined
-          lunchItems.push(body[0].result[j].dish_of_the_day);
-          j = j + 1;
-      }
-      lunchItems = lunchItems.join("\n");
-      var messageText = restaurantFormatted + ' ' + dayName + ' ' + dateTimeReal + '\n\n' + lunchItems + '\n\n';
-
-      sendTextMessage(senderID, messageText);
-    } // end of status 200 ok
-    console.log('error DEBUG: ', error);
-  })
-} */
 
 function sendTextMessage(recipientId, messageText) {
   var messageData = {
@@ -205,6 +246,7 @@ function sendTextMessage(recipientId, messageText) {
   };
   callSendAPI(messageData);
 }
+
 
 function callSendAPI(messageData) {
   request({
@@ -229,87 +271,4 @@ function callSendAPI(messageData) {
 }
 
 
-/* app.listen(3000, function () {
-  console.log('LunchChatBot app listening on port 3000!')
-}) */
-
 app.listen(process.env.PORT);
-
-
-// Successfull test of all the added restaurants
-// Alere test
-/* var getLunchAlere = function () {
-  getLunch.alere
-  .then(function (result) {
-      console.log(result);
-  })
-  .catch(function (error) {
-      console.log(error.message);
-  });
-};
-getLunchAlere();
-
-
-// Serveri test
-var getLunchServeri = function () {
-  getLunch.serveri
-  .then(function (result) {
-      console.log(result);
-  })
-  .catch(function (error) {
-      console.log(error.message);
-  });
-};
-getLunchServeri();
-
-
-// Wolffs test
-var getLunchWolffs = function () {
-  getLunch.wolffs
-  .then(function (result) {
-      console.log(result);
-  })
-  .catch(function (error) {
-      console.log(error.message);
-  });
-};
-getLunchWolffs();
-
-// Mathilda test
-var getLunchMathilda = function () {
-  getLunch.mathilda
-  .then(function (result) {
-      console.log(result);
-  })
-  .catch(function (error) {
-      console.log(error.message);
-  });
-};
-getLunchMathilda();
-
-// W33 test
-var getLunchW33 = function () {
-  getLunch.W33
-  .then(function (result) {
-    console.log(result);
-  })
-  .catch(function (error) {
-    console.log(error.message);
-  });
-};
-getLunchW33();
-
-var getLunchCafeTechno = function () {
-  getLunch.cafeTechno
-  .then(function (result) {
-    console.log(result);
-  })
-  .catch(function (error) {
-    console.log(error.message);
-  });
-};
-getLunchCafeTechno(); */
-
-
-/* app.listen(3000);
-console.log("The server is now running on port 3000."); */
