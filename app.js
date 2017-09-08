@@ -97,7 +97,7 @@ var getLunchW33 = function (senderID) {
   });
 };
 
-var getLunchCafeTechno = function () {
+var getLunchCafeTechno = function (senderID) {
   getLunch.cafeTechno
   .then(function (result) {
     console.log(result);
@@ -108,7 +108,7 @@ var getLunchCafeTechno = function () {
   });
 };
 
-var getLunchMathilda = function () {
+var getLunchMathilda = function (senderID) {
   getLunch.mathilda
   .then(function (result) {
       console.log(result);
@@ -119,7 +119,7 @@ var getLunchMathilda = function () {
   });
 };
 
-var getLunchWolffs = function () {
+var getLunchWolffs = function (senderID) {
   getLunch.wolffs
   .then(function (result) {
       console.log(result);
@@ -130,7 +130,7 @@ var getLunchWolffs = function () {
   });
 };
 
-var getLunchServeri = function () {
+var getLunchServeri = function (senderID) {
   getLunch.serveri
   .then(function (result) {
       console.log(result);
@@ -141,7 +141,7 @@ var getLunchServeri = function () {
   });
 };
 
-var getLunchAlere = function () {
+var getLunchAlere = function (senderID) {
   getLunch.alere
   .then(function (result) {
       console.log(result);
