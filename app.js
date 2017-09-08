@@ -1,7 +1,6 @@
 // Campus Vasa lunch Bot  - Victor Anderssén 2017
 
 // Includes
-//var config = require('./config.js');
 var getLunch = require('./getLunch.js');
 var express = require('express');
 var request = require('request');
