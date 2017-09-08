@@ -1,4 +1,4 @@
-var config = require('../config.js');
+//var config = require('../config.js');
 var dateFormat = require('dateformat');
 var request = require('request');
 
@@ -6,7 +6,7 @@ module.exports = function() {
 
   function getLunchTodayCafeTechno() {
     return new Promise(function(resolve, reject) {
-      var url = 'https://graph.facebook.com/344803872307929/posts?access_token=' + config.Facebook.GRAPH_API_ACCESS_TOKEN;
+      var url = 'https://graph.facebook.com/344803872307929/posts?access_token=' + process.env.GRAPH_API_ACCESS_TOKEN;
       request(url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
           var currentDate = new Date();
