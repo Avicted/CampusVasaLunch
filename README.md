@@ -9,7 +9,7 @@ The following vars are used:
 
 * GRAPH_API_ACCESS_TOKEN
 * PAGE_ACCESS_TOKEN
-* VERIFY_TOKEN
+* VERIFY_TOKEN (You will set this one yourself)
 
 The vars can be obtained by follwing Facebooks messenger bot guide.
 
