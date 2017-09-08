@@ -84,18 +84,29 @@ app.post('/webhook', function (req, res) {
   }
 });
 
+
 // Restaurant API
 var getLunchW33 = function (senderID) {
   getLunch.W33
   .then(function (result) {
-    //console.log(result);
+    console.log(result);
     sendTextMessage(senderID, result);
   })
   .catch(function (error) {
-    //console.log(error.message);
+    console.log(error.message);
   });
 };
-  
+
+var getLunchCafeTechno = function () {
+  getLunch.cafeTechno
+  .then(function (result) {
+    console.log(result);
+  })
+  .catch(function (error) {
+    console.log(error.message);
+  });
+};
+
 function receivedMessage(event) {
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
@@ -120,11 +131,17 @@ function receivedMessage(event) {
         getHelpText(senderID);
         break;
       }
+
       case 'w33':
       case 'W33':
       {
-        //getData(senderID, messageText);
         getLunchW33(senderID);
+        break;
+      }
+      case 'cafetechno':
+      case 'Cafetechno':
+      {
+        getLunchCafeTechno(senderID);
         break;
       }
      
