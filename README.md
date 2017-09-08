@@ -7,9 +7,9 @@ The page that you test on does not need to be public. More info on this can be f
 The application uses the Node.js process environment variables (process.env.VARIABLE_HERE)
 The following vars are used:
 
-GRAPH_API_ACCESS_TOKEN
-PAGE_ACCESS_TOKEN
-VERIFY_TOKEN
+* GRAPH_API_ACCESS_TOKEN
+* PAGE_ACCESS_TOKEN
+* VERIFY_TOKEN
 
 The vars can be obtained by follwing Facebooks messenger bot guide.
 
