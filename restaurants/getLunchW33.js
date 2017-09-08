@@ -18,7 +18,7 @@ module.exports = function() {
           var lunchFound = false;
 
           // Loop through all Facebook posts in the first pagination page of the W33 page
-          // If a enty matches the current date, add its message to the result 
+          // If an entity matches the current date, add its message to the result 
           for (var i = 0; i < postsCount; i++) {
             var createdTimeTemp = dateFormat(body.data[i].created_time, 'isoDate');
 

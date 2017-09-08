@@ -11,12 +11,9 @@ module.exports = function() {
     mathilda: {id: 34, name: "Mathilda", menuTypeId: 60}
   }
 
-  // Global lunch items arrays TODO can these please be local? :/
   var lunchItemsSE = [];
 
   function getLunchTodayJuvenes(restaurant) {
-    // TODO - restore date
-    //var currentDate = new Date('2017-9-4');
     var currentDate = new Date();
     var weekNumber = dateFormat(currentDate, "W");
     var dayNumber = currentDate.getDay();
@@ -50,10 +47,7 @@ module.exports = function() {
           // Empty the array so that it does not accumulate results for the unlucky next user who will get the result * (number of requests that ever happend)
           lunchItemsSE = [];
         }
-        // TODO: test and enable this?
-        /* else {
-          reject(error);
-        } */
+        // TODO: reject(error);
 
       })
     });
@@ -61,25 +55,24 @@ module.exports = function() {
   }
 
   function jsonClean(dirty) {
-    // remove  ({"d":" from the beginning
+    // Remove  ({"d":" from the beginning
     var dirty = dirty.substr(7);
-    // remove  "}); from the end
+    // Remove  "}); from the end
     var dirty = dirty.substr(0, dirty.length - 4);
-    // replace all \ -> empty
+    // Replace all \ -> empty
     var dirty = dirty.replace(/\\/g, '');
-    // convert back to valid json
+    // Convert back to valid json
     var cleanJson = JSON.parse(dirty);
 
     return cleanJson;
   }
 
 
-  //called with every property and its value
+  // Called with every property and its value
   function process(key, value) {
     // Find all occurances of the swedish lunch items that do not begin with LOUNAS ?! and are not empty ...
     if (key == 'Name_SV' && value.includes('LOUNAS') == false && value !== '') {
       lunchItemsSE.push(value);
-      //console.log(key + " : "+ value);
     }
   }
 
@@ -87,7 +80,7 @@ module.exports = function() {
     for (var i in o) {
       func.apply(this,[i,o[i]]);  
       if (o[i] !== null && typeof(o[i]) == "object") {
-          //going one step down in the object tree!!
+          // Going one step down in the object tree
           traverse(o[i], func);
       }
     }

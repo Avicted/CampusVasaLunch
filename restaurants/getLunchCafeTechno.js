@@ -7,6 +7,7 @@ module.exports = function() {
   function getLunchTodayCafeTechno() {
     return new Promise(function(resolve, reject) {
       var url = 'http://www.cafetechno.fi/meny/';
+      
       request(url, function (error, response, html) {
         if (!error && response.statusCode == 200) {
           var currentDate = new Date();
