@@ -5,10 +5,10 @@ module.exports = function() {
 
   // Global restaurant ids
   var restaurants = {
-    alere: {id: 45, name: 'Alere', menuTypeId: 60},
-    serveri: {id: 35, name: 'Serveri', menuTypeId: 60},
-    wolffs: {id: 350047, name: 'Wolffs', menuTypeId: 23},
-    mathilda: {id: 34, name: 'Mathilda', menuTypeId: 60}
+    alere: {id: 45, name: "Alere", menuTypeId: 60},
+    serveri: {id: 35, name: "Serveri", menuTypeId: 60},
+    wolffs: {id: 350047, name: "Wolff's Street", menuTypeId: 23},
+    mathilda: {id: 34, name: "Mathilda", menuTypeId: 60}
   }
 
   // Global lunch items arrays TODO can these please be local? :/
