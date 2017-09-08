@@ -1,35 +1,85 @@
 //var config = require('../config.js');
 var dateFormat = require('dateformat');
 var request = require('request');
+var cheerio = require('cheerio');
 
 module.exports = function() {
 
   function getLunchTodayCafeTechno() {
     return new Promise(function(resolve, reject) {
-      var url = 'https://graph.facebook.com/344803872307929/posts?access_token=' + process.env.GRAPH_API_ACCESS_TOKEN;
-      request(url, function (error, response, body) {
+      var url = 'http://www.cafetechno.fi/meny/';
+      request(url, function (error, response, html) {
         if (!error && response.statusCode == 200) {
           var currentDate = new Date();
           currentDate = dateFormat(currentDate, 'isoDate');
           var currentWeekNumber = dateFormat(currentDate, "W");
-
-          body = JSON.parse(body);
+          var currentDayNumber = dateFormat(currentDate, "N");
           var result = 'CafeTechno ' + dateFormat(currentDate, "fullDate") + ' \n\n';
-
-          var postsCount = body.data.length;
-          var lunchFound = false;
-
-          // Fetch the newest post from their Facebook page, to this day (5.9.2017) they have only posted relevant info that we can use
-          if (body.data[0].message !== null) {
-            result += body.data[0].message;
+  
+          // Get data from the website
+          var $ = cheerio.load(html,{
+            decodeEntities: false
+          });
+  
+          $weekNumber = $('.menu-title2').html();
+  
+          var dishesPerDay = [];
+          $('.menu-description2').children('p').each(function(i, elem) {
+            dishesPerDay[i] = $(this).text();
+          });
+          
+          var weekNumberEnd = $weekNumber.substr($weekNumber.length - 2); // Lunchmeny v.36 -> 36
+  
+          // Find the paragraph with the correct weekday name
+          var dishesFound = false;
+          
+          if (currentWeekNumber === weekNumberEnd) {
+            
+            if (currentDayNumber == 1) {
+              dishesPerDay.forEach(function(element) {
+                if (element.includes("MÅNDAG") || element.includes("måndag") || element.includes("Måndag")) {
+                  result += element.toLowerCase();
+                }
+              }, this);
+            }
+  
+            if (currentDayNumber == 2) {
+              dishesPerDay.forEach(function(element) {
+                if (element.includes("TISDAG") || element.includes("tisdag") || element.includes("Tisdag")) {
+                  result += element.toLowerCase();
+                }
+              }, this);
+            }
+  
+            if (currentDayNumber == 3) {
+              dishesPerDay.forEach(function(element) {
+                if (element.includes("ONSDAG") || element.includes("onsdag") || element.includes("Onsdag")) {
+                  result += element.toLowerCase();
+                }
+              }, this);
+            }
+  
+            if (currentDayNumber == 4) {
+              dishesPerDay.forEach(function(element) {
+                if (element.includes("TORSDAG") || element.includes("torsdag") || element.includes("Torsdag")) {
+                  result += element.toLowerCase();
+                }
+              }, this);
+            }
+  
+            if (currentDayNumber == 5) {
+              dishesPerDay.forEach(function(element) {
+                if (element.includes("FREDAG") || element.includes("fredag") || element.includes("Fredag")) {
+                  result += element.toLowerCase();
+                }
+              }, this);
+            }
+  
+          }  
+            // Send the result
             resolve(result);
-          }
-          else {
-            result += 'Ingen lunch hittades, försök igen senare';
-            resolve(result);
-          }
         }
-      
+  
       });
     });
   }
