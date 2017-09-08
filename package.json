@@ -4,7 +4,7 @@
   "description": "Node.js app that can fetch lunch data for campus vasa restaurants",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "author": "Victor Anderssén",
   "license": "MIT",
