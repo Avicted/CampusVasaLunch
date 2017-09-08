@@ -6,7 +6,6 @@ var getLunch = require('./getLunch.js');
 var express = require('express');
 var cors = require('cors');
 var bodyParser = require('body-parser')
-var prettyjson = require('prettyjson');
 var app = express();
 var getLunch = getLunch();
 
