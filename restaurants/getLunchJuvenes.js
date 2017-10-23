@@ -56,7 +56,7 @@ module.exports = function() {
 
   function jsonClean(dirty) {
     // Remove  ({"d":" from the beginning
-    var dirty = dirty.substr(7);
+    var dirty = dirty.substr(6);
     // Remove  "}); from the end
     var dirty = dirty.substr(0, dirty.length - 4);
     // Replace all \ -> empty
