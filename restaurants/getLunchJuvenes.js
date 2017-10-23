@@ -23,7 +23,7 @@ module.exports = function() {
       request(restaurantURL, function (error, response, body) {
         if (!error && response.statusCode == 200) {
           
-          var body = jsonClean(body);
+          // var body = jsonClean(body);
 
           // Parse the json and find all the lunch items
           traverse(body, process);
@@ -56,7 +56,7 @@ module.exports = function() {
 
   function jsonClean(dirty) {
     // Remove  ({"d":" from the beginning
-    var dirty = dirty.substr(5);
+    var dirty = dirty.substr(7);
     // Remove  "}); from the end
     var dirty = dirty.substr(0, dirty.length - 4);
     // Replace all \ -> empty
