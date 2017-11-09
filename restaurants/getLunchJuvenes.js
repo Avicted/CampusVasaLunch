@@ -22,8 +22,7 @@ module.exports = function() {
     return new Promise(function(resolve, reject) {
       request(restaurantURL, function (error, response, body) {
         if (!error && response.statusCode == 200) {
-          
-          // var body = jsonClean(body);
+          var body = jsonClean(body);
 
           // Parse the json and find all the lunch items
           traverse(body, process);
@@ -46,9 +45,10 @@ module.exports = function() {
         
           // Empty the array so that it does not accumulate results for the unlucky next user who will get the result * (number of requests that ever happend)
           lunchItemsSE = [];
+        } else {
+          // TODO: reject(error);
+          console.log(error);
         }
-        // TODO: reject(error);
-
       })
     });
     
@@ -56,9 +56,9 @@ module.exports = function() {
 
   function jsonClean(dirty) {
     // Remove  ({"d":" from the beginning
-    var dirty = dirty.substr(7);
+    var dirty = dirty.substr(6);
     // Remove  "}); from the end
-    var dirty = dirty.substr(0, dirty.length - 4);
+    var dirty = dirty.substr(0, dirty.length - 2);
     // Replace all \ -> empty
     var dirty = dirty.replace(/\\/g, '');
     // Convert back to valid json
