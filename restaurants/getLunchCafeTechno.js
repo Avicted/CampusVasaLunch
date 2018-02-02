@@ -30,7 +30,7 @@ module.exports = function() {
           
 
           // Extract weeknumber from the string
-	        var weekNumberEnd = $weekNumber.replace(/[A-Za-z.$-]/g, "");
+	        var weekNumberEnd = $weekNumber.replace(/[A-Za-z. $-]/g, '');
 
           console.log('currentWeekNumber: ' + currentWeekNumber);
           console.log('currentDayNumber: ' + currentDayNumber);
