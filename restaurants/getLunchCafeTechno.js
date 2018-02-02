@@ -28,7 +28,9 @@ module.exports = function() {
             dishesPerDay[i] = $(this).text();
           });
           
-          var weekNumberEnd = $weekNumber.substr($weekNumber.length - 2); // Lunchmeny v.36 -> 36
+
+          // Extract weeknumber from the string
+          var weekNumberEnd = parseInt($weekNumber);
   
           // Find the paragraph with the correct weekday name
           var dishesFound = false;
