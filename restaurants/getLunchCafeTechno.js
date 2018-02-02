@@ -31,6 +31,10 @@ module.exports = function() {
 
           // Extract weeknumber from the string
           var weekNumberEnd = parseInt($weekNumber);
+
+          console.log('currentWeekNumber: ' + currentWeekNumber);
+          console.log('currentDayNumber: ' + currentDayNumber);
+          console.log('weekNumberEnd: ' + weekNumberEnd);
   
           // Find the paragraph with the correct weekday name
           var dishesFound = false;
